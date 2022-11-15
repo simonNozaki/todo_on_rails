@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  state: MyString
+  deadline: 2022-11-15 11:42:24
+  comment: MyText
+  todo_item: one
+
+two:
+  title: MyString
+  state: MyString
+  deadline: 2022-11-15 11:42:24
+  comment: MyText
+  todo_item: two
