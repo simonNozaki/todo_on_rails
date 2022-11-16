@@ -1,32 +1,47 @@
-module Domain
-  module Users
+module Todos
 
-    class TodoItemRepository
-      # Return todos array associated with a user
-      # @param [String] id
-      # @return [Todo]
-      def find_by_user_id(id)
-        todos = TodoItem.find_by_user_id(id)
-        raise Exceptions::ResourceNotFoundError unless todos
-        todos.map do |todo|
-          state = to_state_symbol(todo.state)
-          Domain::Todos::Todo.new(todo.id, todo.title, state, todo.deadline, todo.comment, todo.sub_todo_items)
-        end
+  class TodoItemRepository
+    # Return todos entities array associated with a user
+    # @param [String] id
+    # @return [Array]
+    def find_by_user_id(id)
+      todos = TodoItem.where(user_id: id)
+      return [] unless todos
+
+      todos.map do |item|
+        Todos::Todo.new(
+          item.id.to_s,
+          item.title,
+          to_state_symbol(item.state),
+          item.deadline.to_datetime,
+          item.comment,
+          item.sub_todo_items.map { |sub_item|
+            Todos::SubTodo.new(
+              sub_item.id,
+              sub_item.title,
+              to_state_symbol(sub_item.state),
+              sub_item.deadline,
+              sub_item.comment
+            )
+          }
+        )
       end
-
-      private
-        # from state code to symbol
-        # @@param [String] state_code
-        def to_state_symbol(state_code)
-          case state_code
-          when "0" then :unprocessed
-          when "1" then :in_progress
-          when "2" then :done
-          when "3" then :gone
-          else raise Exceptions::ResourceUndefinedError
-          end
-        end
     end
 
+    private
+      TODO_STATE = {
+        "0" => :unprocessed,
+        "1" => :in_progress,
+        "2" => :done,
+        "3" => :gone
+      }.freeze
+
+      # Return a symbol associated with state column value
+      # @param [String] status_code
+      def to_state_symbol(status_code)
+        s = TODO_STATE[status_code]
+        raise Exceptions::ResourceUndefinedError unless s
+        s
+      end
   end
 end
