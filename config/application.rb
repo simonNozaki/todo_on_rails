@@ -38,6 +38,10 @@ module TodoOnRails
     config.api_only = true
 
     # Load custom libraries or PORO from lib
-    config.autoload_paths += Dir["#{config.root}/lib/**"]
+    config.autoload_paths << Rails.root.join("lib")
+    config.eager_load_paths << Rails.root.join("lib")
+
+    config.time_zone = "UTC"
+    config.encoding = "utf-8"
   end
 end
