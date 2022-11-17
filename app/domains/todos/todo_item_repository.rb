@@ -9,23 +9,36 @@ module Todos
       return [] unless todos
 
       todos.map do |item|
+        sub_todo = item.sub_todo_items.map { |sub_item|
+          Todos::SubTodo.new(
+            sub_item.id.to_s,
+            sub_item.title,
+            to_state_symbol(sub_item.state),
+            sub_item.deadline.to_datetime,
+            sub_item.comment
+          )
+        }
         Todos::Todo.new(
           item.id.to_s,
           item.title,
           to_state_symbol(item.state),
           item.deadline.to_datetime,
           item.comment,
-          item.sub_todo_items.map { |sub_item|
-            Todos::SubTodo.new(
-              sub_item.id,
-              sub_item.title,
-              to_state_symbol(sub_item.state),
-              sub_item.deadline,
-              sub_item.comment
-            )
-          }
+          sub_todo
         )
       end
+    end
+
+    # @param [Todos::Todo] todo
+    # @param [Users::Types::UserId] user_id
+    def save(todo, user_id)
+      TodoItem.create!(
+        id: todo.id,
+        title: todo.title.value,
+        state: todo.state,
+        deadline: todo.deadline.value,
+        user_id: user_id.value
+      )
     end
 
     private

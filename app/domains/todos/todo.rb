@@ -17,6 +17,22 @@ module Todos
       @sub_todos = sub_todos
     end
 
+    # Easy factory method
+    # @param [String] title
+    # @param [Const::Todo::TodoState] state
+    # @param [DateTime] deadline
+    # @param [String] comment
+    def self.of(title, state, deadline, comment)
+      self.new(
+        SecureRandom.uuid.to_s,
+        title,
+        state,
+        deadline,
+        comment,
+        nil
+      )
+    end
+
     attr_reader :id, :title, :state, :deadline, :comment, :sub_todos
 
     # @param [Todos::Todo] todo

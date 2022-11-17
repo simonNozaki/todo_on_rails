@@ -1,11 +1,20 @@
 class V1::TodosController < ApplicationController
 
   def show
-    list_todos_usecase = Todos::ListTodosUsecase.new
     user_id = params[:id]
-    todos = list_todos_usecase.execute(user_id)
+    todos = Todos::Usecases::ListTodosUsecase.new.execute(user_id)
 
     render json: todos
+  end
+
+  def create
+    request = params[:todo]
+    result = Todos::Usecases::CreateTodosUsecase.new.execute(request)
+
+    render json: {
+      user_id: request[:user_id],
+      id: result.id
+    }
   end
 
 end
