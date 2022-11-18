@@ -6,7 +6,7 @@ class ListTodosUsecaseTest < ActionDispatch::IntegrationTest
     @todo_item_main_2 = todo_items(:main_todo_item_2)
     @sub_todo_item_1 = sub_todo_items(:sub_todo_item_1)
     @sub_todo_item_2 = sub_todo_items(:sub_todo_item_2)
-    @use_case = Todos::ListTodosUsecase.new
+    @use_case = Todos::Usecases::ListTodosUsecase.new
   end
 
   test "should return empty array" do
