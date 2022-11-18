@@ -1,6 +1,6 @@
 # Deadline domain object
 class Todos::Types::Deadline
-  # @param [DateTime]
+  # @param [Time] value
   def initialize(value)
     @value = value
   end
