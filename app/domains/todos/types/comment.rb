@@ -1,8 +1,12 @@
 # Comment domain object
 class Todos::Types::Comment
+  include ObjectConst
+
   # @param [String] value
   def initialize(value)
-    raise Exceptions::ObjectValidationError.new if value.size > StringConst::COMMENT_MAX_LENGTH
+    if value.size > StringConst::COMMENT_MAX_LENGTH
+      raise Exceptions::ObjectValidationError.new(COMMENT_CONSTRAINT_ERROR_TOO_LONG)
+    end
     @value = value
   end
 
