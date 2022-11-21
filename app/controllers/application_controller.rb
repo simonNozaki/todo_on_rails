@@ -1,22 +1,36 @@
 class ApplicationController < ActionController::API
   include Exceptions
 
-  rescue_from StandardError, with: :to_internal_server_error
-  rescue_from ObjectValidationError, with: :to_bad_request
-  rescue_from ResourceNotFoundError, with: :to_bad_request
-  rescue_from ResourceUndefinedError, with: :to_bad_request
+  rescue_from StandardError do |e|
+    to_internal_server_error(e.message)
+  end
+  rescue_from ObjectValidationError do |e|
+    to_bad_request(e.message)
+  end
+  rescue_from ResourceNotFoundError do |e|
+    to_bad_request(e.message)
+  end
+  rescue_from ResourceUndefinedError do |e|
+    to_bad_request(e.message)
+  end
 
   private
-    def to_bad_request
-      to_response(400)
+    # @param [String] message
+    def to_bad_request(message)
+      to_response(400, message)
     end
 
-    def to_internal_server_error
-      to_response(500)
+    # @param [String] message
+    def to_internal_server_error(message)
+      to_response(500, message)
     end
 
+    # @param [String] message
     # @param [Integer] status
-    def to_response(status)
-      render json: "", status: status
+    def to_response(status, message)
+      response = {
+        error: message
+      }
+      render json: response, status: status
     end
 end
