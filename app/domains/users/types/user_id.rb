@@ -1,7 +1,9 @@
 class Users::Types::UserId
+  include ObjectConst
+
   # @param [String] value
   def initialize(value)
-    raise Exceptions::ObjectValidationError.new if value.to_s.empty?
+    raise Exceptions::ObjectValidationError.new(USER_ID_ERROR_BLANK) if value.to_s.empty?
     @value = value
   end
 
