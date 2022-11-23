@@ -5,7 +5,7 @@ class Todos::Types::Comment
   # @param [String] value
   def initialize(value)
     if value.size > StringConst::COMMENT_MAX_LENGTH
-      raise Exceptions::ObjectValidationError.new(COMMENT_CONSTRAINT_ERROR_TOO_LONG)
+      raise Exceptions::ObjectValidationError.new(COMMENT_ERROR_TOO_LONG)
     end
     @value = value
   end
