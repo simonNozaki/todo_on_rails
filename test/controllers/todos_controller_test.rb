@@ -2,10 +2,11 @@ require "test_helper"
 
 class TodosControllerTest < ActionDispatch::IntegrationTest
   test "should rescue runtime error(title blank)" do
+    user_michael = users(:michael)
     req = {
-      user_id: "1",
+      user_id: user_michael.id,
       title: "",
-      state: "0",
+      state: TODO_STATE[:unprocessed],
       deadline: get_week_later,
       comment: ""
     }
@@ -17,27 +18,15 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
 
   test "should rescue runtime error(user not found)" do
     req = {
-      user_id: "",
+      user_id: "0",
       title: "coding",
-      state: "0",
+      state: TODO_STATE[:unprocessed],
       deadline: get_week_later,
       comment: ""
     }
     post v1_todos_url, params: { todo: req }
     result = JSON.parse(response.body)
     assert_response :bad_request
-    assert_equal "Resource User with id nil not found.", result['error']
+    assert_equal "Resource User with id 0 not found.", result['error']
   end
-
-  private
-    # @param [Time] time
-    # @param [Integer] days
-    def get_days_later(time, days)
-      time + (60*60*24*days)
-    end
-
-    # @return [String] time string
-    def get_week_later
-      get_days_later(Time.now, 7).to_s
-    end
 end
