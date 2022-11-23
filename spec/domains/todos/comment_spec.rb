@@ -9,6 +9,6 @@ describe 'Comment' do
   end
 
   it "can create comment domain object" do
-    expect { Comment.new('share to everyone') }.to be_instance_of Comment
+    expect(Comment.new('share to everyone')).to be_instance_of(Comment)
   end
 end
