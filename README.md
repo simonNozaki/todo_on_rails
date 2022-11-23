@@ -8,7 +8,9 @@ TODOアプリケーションの、バックエンド機能を提供するREST AP
 ネストしたTODOオブジェクトである *サブTODO* の登録も可能。 サブTODOは親のTODOに依存した構造になっており、ステータス遷移や登録において制約を受ける。
 
 ## ユースケース、ドメインモデル
-![usecase](docs/)
+![usecase](docs/TODOアプリ_ユーザあり.jpg)
+
+※そこそこ多機能なので、順次機能を追加していく
 
 # システム要件
 * Ruby version
@@ -32,6 +34,17 @@ Rails 6.1.7
 * System dependencies
 
 * Configuration
+For rails console, 
+
+Create a user
+```ruby
+User.create!(id: 1, name: 'Main user')
+```
+
+Create a todo associated with user 1
+```ruby
+TodoItem.create!(id: 1, title: 'create a mtg handout', state: '1', deadline: 7.days.after, user_id: 1)
+```
 
 * Database creation
 
@@ -43,4 +56,3 @@ Rails 6.1.7
 
 * Deployment instructions
 
-* ...
