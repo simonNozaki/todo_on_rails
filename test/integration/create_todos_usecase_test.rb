@@ -9,7 +9,7 @@ class CreateTodosUsecaseTest < ActionDispatch::IntegrationTest
     req = {
       user_id: "0",
       title: "review",
-      state: "0",
+      state: TODO_STATE[:unprocessed],
       deadline: "2022-11-22",
       comment: ""
     }
@@ -21,8 +21,8 @@ class CreateTodosUsecaseTest < ActionDispatch::IntegrationTest
     req = {
       user_id: user_michael.id,
       title: "review",
-      state: "0",
-      deadline: "2022-11-22",
+      state: TODO_STATE[:unprocessed],
+      deadline: get_week_later,
       comment: ""
     }
 

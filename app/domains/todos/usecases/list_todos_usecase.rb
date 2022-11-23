@@ -14,7 +14,7 @@ class Todos::Usecases::ListTodosUsecase
   end
 
   private
-    # 生のレスポンスに返却する
+    # Transform domain object to raw response
     # @param [Array] todo_entities
     def to_response(todo_entities)
       todo_entities.map { |todo|
