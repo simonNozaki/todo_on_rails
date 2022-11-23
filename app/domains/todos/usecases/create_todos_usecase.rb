@@ -9,7 +9,7 @@ class Todos::Usecases::CreateTodosUsecase
   # @return [Todos::Todo] a created todo entity
   def execute(request)
     user_id = Users::Types::UserId.new(request[:user_id])
-    raise Exceptions::ResourceNotFoundError.new unless User.where(id: user_id.value).exists?
+    raise Exceptions::ResourceNotFoundError.new('', 'User', user_id.value) unless User.where(id: user_id.value).exists?
 
     title = Todos::Types::Title.new(request[:title])
     state = request[:state]

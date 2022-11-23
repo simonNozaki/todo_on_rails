@@ -5,28 +5,34 @@ class ApplicationController < ActionController::API
     to_internal_server_error(e.message)
   end
   rescue_from ActiveRecord::RecordNotFound do |e|
-    message = get_message_from_error(e)
+    model_names = {
+      "User": "User",
+      "TodoItem": "Todo",
+      "SubTodoItem": "SubTodo"
+    }
+    message = get_message_on_not_found(model_names[e.model], e.id)
     to_bad_request(message)
+  end
+  rescue_from TodoRuntimeError do |e|
+    to_bad_request(e.message)
   end
   rescue_from ObjectValidationError do |e|
     to_bad_request(e.message)
   end
   rescue_from ResourceNotFoundError do |e|
-    to_bad_request(e.message)
+    message = get_message_on_not_found(e.resource, e.id)
+    to_bad_request(message)
   end
   rescue_from ResourceUndefinedError do |e|
-    to_bad_request(e.message)
+    message = "#{e.value} not defined at key #{e.key}"
+    to_bad_request(message)
   end
 
   private
-    # @param [ActiveRecord::RecordNotFound] e
-    def get_message_from_error(e)
-      model_names = {
-        "User": "User",
-        "TodoItem": "Todo",
-        "SubTodoItem": "SubTodo"
-      }
-      "Resource #{model_names[e.model]} with id #{e.id} not found."
+    # @param [String] resource_name
+    # @param [String] id
+    def get_message_on_not_found(resource_name, id)
+      "Resource #{resource_name} with id #{id} not found."
     end
 
     # @param [String] message
