@@ -13,6 +13,9 @@ class ApplicationController < ActionController::API
     message = get_message_on_not_found(model_names[e.model], e.id)
     to_bad_request(message)
   end
+  rescue_from ActionController::RoutingError do |e|
+    to_not_found("Route #{e.message} not found on this server")
+  end
   rescue_from TodoRuntimeError do |e|
     to_bad_request(e.message)
   end
@@ -28,6 +31,10 @@ class ApplicationController < ActionController::API
     to_bad_request(message)
   end
 
+  def handle_routing_error
+    raise ActionController::RoutingError, params[:not_found]
+  end
+
   private
     # @param [String] resource_name
     # @param [String] id
@@ -38,6 +45,11 @@ class ApplicationController < ActionController::API
     # @param [String] message
     def to_bad_request(message)
       to_response(400, message)
+    end
+
+    # @param [String] message
+    def to_not_found(message)
+      to_response(404, message)
     end
 
     # @param [String] message
