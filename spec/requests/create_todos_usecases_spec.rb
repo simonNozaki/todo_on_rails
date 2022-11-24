@@ -28,7 +28,6 @@ RSpec.describe "Create todos use case", type: :request do
       }
 
       result = use_case.execute(req)
-      p result
 
       expect(result).to be_instance_of(Todos::Todo)
       expect(result.title.value).to be(req[:title])
