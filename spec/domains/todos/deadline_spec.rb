@@ -11,7 +11,7 @@ describe 'Deadline' do
     it "should create deadline object" do
       today = Time.parse('2022-11-17')
       deadline = Time.parse('2022-11-20')
-      assert_equal "2022-11-20 00:00:00 +0900", Deadline.new(deadline, today).value.to_s
+      expect(Deadline.new(deadline, today).value.to_s).to eq("2022-11-20 00:00:00 +0900")
     end
   end
 
@@ -19,7 +19,7 @@ describe 'Deadline' do
     it "should create deadline object from string" do
       today = '2022-11-17'
       deadline = '2022-11-20'
-      assert_equal Time.parse(deadline), Deadline.from_s(deadline, today).value
+      expect(Deadline.from_s(deadline, today).value).to eq(Time.parse(deadline))
     end
   end
 end

@@ -1,8 +1,5 @@
 class HealthchecksController < ApplicationController
   def index
-    response = {
-      message: "OK"
-    }
-    render json: response
+    render status: :ok
   end
 end

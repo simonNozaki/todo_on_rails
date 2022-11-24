@@ -6,7 +6,6 @@ RSpec.describe 'UserId' do
   end
 
   it 'should create a UserId' do
-    p Users::Types::UserId.new('1')
     expect(Users::Types::UserId.new('1')).to be_instance_of Users::Types::UserId
   end
 end
