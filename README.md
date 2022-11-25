@@ -51,6 +51,19 @@ TodoItem.create!(id: 1, title: 'create a mtg handout', state: '1', deadline: 7.d
 * Database initialization
 
 * How to run the test suite
+To run all specs:
+```bash
+$ rails spec
+```
+
+To run some specific layer:
+```bash
+$ rails spec:domains
+
+$ rails spec:models
+
+$ rails spec:requests
+```
 
 * Services (job queues, cache servers, search engines, etc.)
 

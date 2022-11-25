@@ -6,35 +6,7 @@ class Todos::Usecases::ListTodosUsecase
 
   # @param [String] user_id
   def execute(user_id)
-    todos = @repository.find_by_user_id(user_id)
-    result = to_response(todos)
-    {
-      items: result
-    }
+    @repository.find_by_user_id(user_id)
   end
 
-  private
-    # Transform domain object to raw response
-    # @param [Array] todo_entities
-    def to_response(todo_entities)
-      todo_entities.map { |todo|
-        sub_todo = todo.sub_todos.map { |t|
-          {
-            id: t.id,
-            title: t.title,
-            state: t.state,
-            deadline: t.deadline,
-            comment: t.comment
-          }
-        }
-        {
-          id: todo.id,
-          title: todo.title,
-          state: todo.state,
-          deadline: todo.deadline,
-          comment: todo.comment,
-          sub_todos: sub_todo
-        }
-      }
-    end
 end
