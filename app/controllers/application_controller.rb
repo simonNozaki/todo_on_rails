@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
   rescue_from ActionController::RoutingError do |e|
     to_not_found("Route #{e.message} not found on this server")
   end
-  rescue_from TodoRuntimeError do |e|
+  rescue_from TodoAppRuntimeError do |e|
     to_bad_request(e.message)
   end
   rescue_from ObjectValidationError do |e|
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::API
   end
 
   def handle_routing_error
-    raise ActionController::RoutingError, params[:not_found]
+    raise(ActionController::RoutingError, params[:not_found])
   end
 
   private

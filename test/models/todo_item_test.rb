@@ -9,7 +9,7 @@ class TodoItemTest < ActiveSupport::TestCase
 
   test "should raise TodoRuntimeError(state blank)" do
     @todo_item.state = ''
-    assert_raises(TodoRuntimeError) { @todo_item.save }
+    assert_raises(TodoAppRuntimeError) { @todo_item.save }
   end
 
   test "should raise ResourceUndefinedError(state)" do
