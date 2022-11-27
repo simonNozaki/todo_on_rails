@@ -3,13 +3,13 @@ module Todos
   class Todo
 
     # @param [String] id
-    # @param [Symbol] title
-    # @param [Const::Todo::TodoState] state
-    # @param [DateTime] deadline
-    # @param [String] comment
+    # @param [Todos::Types::Title] title
+    # @param [Symbol] state
+    # @param [Todos::Types::Deadline] deadline
+    # @param [Todos::Types::Comment] comment
     # @param [Array] sub_todos
     def initialize(id, title, state, deadline, comment, sub_todos)
-      raise Exceptions::ObjectValidationError.new('State not found') unless TODO_STATES.include?(state)
+      raise Exceptions::ObjectLogicError.new("State #{state} not found") unless TODO_STATES.include?(state)
       @id = id
       @title = title
       @state = state
@@ -19,10 +19,10 @@ module Todos
     end
 
     # Easy factory method
-    # @param [String] title
-    # @param [Const::Todo::TodoState] state
-    # @param [DateTime] deadline
-    # @param [String] comment
+    # @param [Todos::Types::Title] title
+    # @param [Symbol] state
+    # @param [Todos::Types::Deadline] deadline
+    # @param [Todos::Types::Comment] comment
     def self.of(title, state, deadline, comment)
       self.new(
         SecureRandom.uuid.to_s,
@@ -30,7 +30,7 @@ module Todos
         state,
         deadline,
         comment,
-        nil
+        []
       )
     end
 
@@ -38,7 +38,7 @@ module Todos
 
     # Make this todo done
     def complete
-      raise(Exceptions::TodoAppRuntimeError.new('')) if @state == :gone
+      raise(Exceptions::ObjectLogicError.new('Todo cannot be done because of state: gone')) if @state == :gone
       @state = :done
     end
 

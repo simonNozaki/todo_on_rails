@@ -20,6 +20,12 @@ module Exceptions
     attr_reader :key, :value
   end
 
+  class ObjectLogicError < TodoAppBaseRuntimeError
+    def initialize(msg = "")
+      super(msg)
+    end
+  end
+
   class ObjectValidationError < TodoAppBaseRuntimeError
     def initialize(msg = "")
       super(msg)

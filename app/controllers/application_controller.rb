@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  include Exceptions
+  include(Exceptions)
 
   rescue_from StandardError do |e|
     to_internal_server_error(e.message)
@@ -17,6 +17,9 @@ class ApplicationController < ActionController::API
     to_not_found("Route #{e.message} not found on this server")
   end
   rescue_from TodoAppRuntimeError do |e|
+    to_bad_request(e.message)
+  end
+  rescue_from ObjectLogicError do |e|
     to_bad_request(e.message)
   end
   rescue_from ObjectValidationError do |e|
