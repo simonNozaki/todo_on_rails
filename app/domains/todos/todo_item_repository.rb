@@ -1,6 +1,10 @@
 module Todos
 
   class TodoItemRepository
+    include(Todos)
+    include(Todos::Types)
+    include(Users::Types)
+
     # Return todos entities array associated with a user
     # @param [String] id
     # @return [Array]
@@ -27,6 +31,41 @@ module Todos
           sub_todo
         )
       end
+    end
+
+    # @param [String] id
+    # @param [UserId] user_id
+    # @return [Todo] todos
+    def find_by_id_and_user_id(id, user_id)
+      record = TodoItem.where(id: id, user_id: user_id.value).first
+      raise(Exceptions::ResourceNotFoundError("", "TodoItem", id)) if record.nil?
+
+      title = Title.new(record.title)
+      state = to_state_symbol(record.state)
+      deadline = Deadline.new(record.deadline)
+      comment = Comment.new(record.comment)
+      sub_todos = record.sub_todo_items.map do |sub|
+        title = Title.new(sub.title)
+        state = to_state_symbol(sub.state)
+        deadline = Deadline.new(sub.deadline)
+        comment = Comment.new(sub.comment)
+        SubTodo.new(
+          sub.id.to_s,
+          title,
+          state,
+          deadline,
+          comment
+        )
+      end
+
+      Todo.new(
+        id.to_s,
+        title,
+        state,
+        deadline,
+        comment,
+        sub_todos
+      )
     end
 
     # @param [Todos::Todo] todo
