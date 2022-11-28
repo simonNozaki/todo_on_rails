@@ -12,12 +12,11 @@ class Todos::Usecases::CreateTodosUsecase
     raise Exceptions::ResourceNotFoundError.new('', 'User', user_id.value) unless User.where(id: user_id.value).exists?
 
     title = Todos::Types::Title.new(request[:title])
-    state = request[:state]
     deadline = Todos::Types::Deadline.new(request[:deadline])
     comment = Todos::Types::Comment.new(request[:comment])
     todo = Todos::Todo.of(
       title,
-      state,
+      :unprocessed,
       deadline,
       comment
     )

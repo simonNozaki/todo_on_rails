@@ -8,7 +8,6 @@ RSpec.describe "Create todos use case", type: :request do
       req = {
         user_id: "0",
         title: "review",
-        state: TestHelper::State::TODO_STATE[:unprocessed],
         deadline: "2022-11-22",
         comment: ""
       }
@@ -17,12 +16,11 @@ RSpec.describe "Create todos use case", type: :request do
   end
 
   context "with a user" do
-    it 'should create a todo' do
+    it 'should create a todo with initial state(unprocessed)' do
       user = FactoryBot.create(:user)
       req = {
         user_id: user.id,
         title: "review",
-        state: TestHelper::State::TODO_STATE[:unprocessed],
         deadline: get_week_later,
         comment: ""
       }

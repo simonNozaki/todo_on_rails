@@ -71,10 +71,14 @@ module Todos
     # @param [Todos::Todo] todo
     # @param [Users::Types::UserId] user_id
     def save(todo, user_id)
+      state_code_pair = TODO_STATE
+                     .filter { |k, v| v == todo.state }
+                     .first
+      raise(ResourceUndefinedError.new('', 'state', state)) if state_code_pair.nil?
       TodoItem.create!(
         id: todo.id,
         title: todo.title.value,
-        state: todo.state,
+        state: state_code_pair.first,
         deadline: todo.deadline.value,
         user_id: user_id.value
       )
