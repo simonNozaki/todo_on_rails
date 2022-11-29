@@ -69,4 +69,18 @@ RSpec.describe V1::TodosController, type: :controller do
       end
     end
   end
+
+  describe("PUT /v1/todos/complete") do
+    context("when a user exists") do
+      it("should get a response") do
+        todo_item = FactoryBot.create(:todo_item)
+        put(:complete, { params: { todo: { id: todo_item.id, user_id: todo_item.user_id } } })
+        result = JSON.parse(response.body)
+
+        expect(response).to(have_http_status(:ok))
+        expect(result['id'].present?).to be_truthy
+        expect(result['user_id']).to eq(todo_item.user_id.to_s)
+      end
+    end
+  end
 end
