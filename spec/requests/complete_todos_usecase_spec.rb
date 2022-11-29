@@ -15,4 +15,18 @@ describe 'CompleteTodosUsecase' do
       expect(result.sub_todos).to eq([])
     end
   end
+
+  context('with not existing user') do
+    todo_item = FactoryBot.create(:todo_item)
+    it('should raise ResourcesNotFoundError') do
+      expect { use_case.execute(todo_item.id, "0") }.to(raise_error(Exceptions::ResourceNotFoundError))
+    end
+  end
+
+  context('with not existing todo item') do
+    todo_item = FactoryBot.create(:todo_item)
+    it('should raise ResourcesNotFoundError') do
+      expect { use_case.execute("0", todo_item.user_id) }.to(raise_error(Exceptions::ResourceNotFoundError))
+    end
+  end
 end

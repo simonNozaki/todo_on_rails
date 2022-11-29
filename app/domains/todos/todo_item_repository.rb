@@ -38,7 +38,7 @@ module Todos
     # @return [Todo] todos
     def find_by_id_and_user_id(id, user_id)
       record = TodoItem.where(id: id, user_id: user_id.value).first
-      raise(Exceptions::ResourceNotFoundError("", "TodoItem", id)) if record.nil?
+      raise(Exceptions::ResourceNotFoundError.new("", "TodoItem", id)) if record.nil?
 
       title = Title.new(record.title)
       state = to_state_symbol(record.state)
