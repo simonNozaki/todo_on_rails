@@ -4,6 +4,8 @@ class V1::UsersController < ApplicationController
   # Execute the use case that return todo items associated with a user
   def show
     user_id = params[:id]
+    raise(Exceptions::ObjectValidationError.new('user_id is nil')) if user_id.nil? || user_id.blank?
+
     todo_entities = ListTodosUsecase.new.execute(user_id)
     todos = create_list_response(todo_entities)
 

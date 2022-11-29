@@ -4,7 +4,11 @@ RSpec.describe V1::UsersController, type: :controller do
   describe("GET /v1/users/:id") do
     context("with not existing user") do
       it 'should handle runtime error(user not found)' do
-        # TODO Force checking user_id
+        get(:show, { params: { id: "" } })
+        result = JSON.parse(response.body)
+
+        expect(response).to(have_http_status(400))
+        expect(result).to(eq({ "error" => "user_id is nil" }))
       end
     end
     context("with an existing user") do
