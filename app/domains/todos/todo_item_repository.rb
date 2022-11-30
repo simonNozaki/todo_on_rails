@@ -84,6 +84,22 @@ module Todos
       )
     end
 
+    # @param [Todos::SubTodo] sub_todo
+    # @param [Users::Types::UserId] user_id
+    # @param [String] todo_id
+    def save_sub_todo(sub_todo, user_id, todo_id)
+      todo_item = TodoItem.where({ id: todo_id, user_id: user_id.value }).first
+      raise(Exceptions::ResourceNotFoundError.new("Todo##{todo_id} with User##{user_id} not found")) if todo_item.nil?
+
+      todo_item.sub_todo_items.create(
+        id: sub_todo.id,
+        title: sub_todo.title.value,
+        state: "0",
+        deadline: sub_todo.deadline.value,
+        comment: sub_todo.comment.value
+      )
+    end
+
     private
       TODO_STATE = {
         "0" => :unprocessed,
