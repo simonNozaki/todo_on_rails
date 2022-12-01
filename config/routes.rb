@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   namespace(:v1) do
     resources(:todos, { only: [:create, :update, :destroy] })
     resources(:users, { only: [:show] })
+    resources(:sub_todos, { only: [:create] })
   end
   # For routing not found
   get('*not_found', { to: 'application#handle_routing_error' })
