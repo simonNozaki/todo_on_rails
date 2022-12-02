@@ -10,23 +10,19 @@ class V1::Validators::CreateSubTodosRequestContract < Dry::Validation::Contract
   end
 
   rule(:user_id) do
-    key.failure('user_id in nil') if value.nil?
+    key.failure('user_id is nil') if value.nil? || value.blank?
   end
 
   rule(:id) do
-    key.failure('id in nil') if value.nil?
+    key.failure('id is nil') if value.nil? || value.blank?
   end
 
   rule(:title) do
-    key.failure('title in nil') if value.nil?
+    key.failure('title is nil') if value.nil? || value.blank?
   end
 
   rule(:deadline) do
-    key.failure('deadline in nil') if value.nil?
-  end
-
-  rule(:comment) do
-    key.failure('comment in nil') if value.nil?
+    key.failure('deadline is nil') if value.nil? || value.blank?
   end
 
   def get_messages
