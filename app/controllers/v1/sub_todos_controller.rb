@@ -36,6 +36,6 @@ class V1::SubTodosController < ApplicationController
   private
     # @param [Dry::Validation::Result] contract
     def get_errors(contract)
-      contract.errors.map { |k,v| "#{k} is nil" }
+      contract.errors.map { |k,v| "#{k}" }.join("; ")
     end
 end
